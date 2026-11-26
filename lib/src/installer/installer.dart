@@ -47,7 +47,7 @@ class NeoRuntimeInstaller {
 
   bool get cancelled => _cancelled;
 
-  /// `configure` runs the unpacked binary. `rollbackArguments` is what the
+  /// `configure` runs the unpacked binary; whatever it throws is rethrown as is. `rollbackArguments` is what the
   /// restored (or, without one, the failed) binary is then asked to do.
   Future<T> install<T>({
     required String channel,
@@ -65,6 +65,8 @@ class NeoRuntimeInstaller {
     }
     _cancelled = false;
     Directory? staging;
+    // What the app's own setup step threw reaches the app unchanged.
+    Object? setupError;
     try {
       _emit(NeoInstallStage.prepare, 'started', NeoInstallText.finding, 0.02);
       final release = await _releases.prepare(
@@ -93,7 +95,8 @@ class NeoRuntimeInstaller {
         final result = await configure(target, activation.executable(target));
         _emit(NeoInstallStage.complete, 'completed', NeoInstallText.ready, 1);
         return result;
-      } on Object {
+      } on Object catch (error) {
+        setupError = error;
         await _rollback(
           runtimeHome: runtimeHome,
           failed: release.version,
@@ -104,9 +107,10 @@ class NeoRuntimeInstaller {
         rethrow;
       }
     } on NeoInstallerException catch (error) {
-      _failed(error);
+      if (!identical(error, setupError)) _failed(error);
       rethrow;
     } on Object catch (error) {
+      if (identical(error, setupError)) rethrow;
       final wrapped = NeoInstallerException('SETUP_INSTALL_FAILED', '$error');
       _failed(wrapped);
       throw wrapped;

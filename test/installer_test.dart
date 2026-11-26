@@ -116,14 +116,18 @@ void main() {
     expect(NeoRuntimeActivation(release.app).currentVersion(home), '2.0.0');
   }, skip: Platform.isWindows);
 
-  test('a failed setup leaves no active runtime', () async {
-    final release = await _release();
-    await expectLater(
-      install(release, failConfigure: true),
-      throwsA(isA<NeoInstallerException>()),
-    );
-    expect(NeoRuntimeActivation(release.app).currentVersion(home), isNull);
-  }, skip: Platform.isWindows);
+  test(
+    'a failed setup keeps its own error and leaves nothing active',
+    () async {
+      final release = await _release();
+      await expectLater(
+        install(release, failConfigure: true),
+        throwsA(isA<StateError>()),
+      );
+      expect(NeoRuntimeActivation(release.app).currentVersion(home), isNull);
+    },
+    skip: Platform.isWindows,
+  );
 
   test(
     'a manifest that does not match its signature is refused',
