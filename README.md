@@ -7,6 +7,8 @@ Shared Flutter foundation for the NeoLabs apps (NeoAgent, NeoRouter, NeoCloud, N
 | `NeoLabsPalette` | Shared light and dark color tokens |
 | `NeoSidebarButton` | Sidebar navigation row with selection and hover states |
 | `NeoSettingsLayout` | Responsive settings navigation rail and compact layout |
+| `NeoSettingsGroup`, `NeoSettingsRow`, `NeoSettingsHeading`, `NeoSettingsCard` | Settings and admin sections: a heading over rows on one card |
+| `NeoUpdateController`, `NeoUpdateBanner`, `NeoUpdateSettings` | Server updates from the admin pages: offer, progress across the restart, channel and log |
 | `NeoCredentialFields` | Sign-in and registration fields with app-supplied validation and labels |
 | `NeoForgotPasswordDialog` | Password reset dialog with input validation and request state |
 | `NeoAuthBackdrop` | Shared sign-in background |
