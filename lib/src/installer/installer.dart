@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:ffi' show Abi;
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 
 import 'activation.dart';
+// A web build imports this library's types but never installs anything.
+import 'architecture_stub.dart' if (dart.library.ffi) 'architecture_ffi.dart';
 import 'archive.dart';
 import 'models.dart';
 import 'release.dart';
@@ -68,7 +69,7 @@ class NeoRuntimeInstaller {
       _emit(NeoInstallStage.prepare, 'started', NeoInstallText.finding, 0.02);
       final release = await _releases.prepare(
         platform: _platform(),
-        architecture: _architecture(),
+        architecture: hostArchitecture(),
         channel: channel,
       );
       final versions = activation.versionsDirectory(runtimeHome);
@@ -225,15 +226,6 @@ class NeoRuntimeInstaller {
       NeoInstallText.unsupportedPlatform,
       retryable: false,
     );
-  }
-
-  String _architecture() {
-    final abi = Abi.current();
-    return abi == Abi.macosArm64 ||
-            abi == Abi.linuxArm64 ||
-            abi == Abi.windowsArm64
-        ? 'arm64'
-        : 'x64';
   }
 
   void _emit(
