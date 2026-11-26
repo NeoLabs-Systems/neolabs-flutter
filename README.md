@@ -23,3 +23,10 @@ flutter test --no-pub
 ```
 
 Licensed under AGPL-3.0, like the apps that use it.
+
+## Desktop server installer
+
+`package:neolabs_flutter/installer.dart` downloads an app's signed server
+runtime, verifies and unpacks it, activates it and rolls back if setting it up
+fails. The app describes itself with `NeoRuntimeApp`, supplies the wording and
+runs its own setup step.
