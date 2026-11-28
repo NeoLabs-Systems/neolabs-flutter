@@ -11,6 +11,10 @@ Shared Flutter foundation for the NeoLabs apps (NeoAgent, NeoRouter, NeoCloud, N
 | `NeoUpdateController`, `NeoUpdateBanner`, `NeoUpdateSettings` | Server updates from the admin pages: offer, progress across the restart, channel and log |
 | `NeoCredentialFields` | Sign-in and registration fields with app-supplied validation and labels |
 | `NeoForgotPasswordDialog` | Password reset dialog with input validation and request state |
+| `NeoAccountApi`, `NeoAccountTransport` | Account export download, account deletion, email change and session routes over the app's transport, with the app's paths and field names |
+| `NeoConfirmIdentityDialog` | Re-authentication before a sensitive action: password, 2FA code and a typed confirmation phrase |
+| `NeoAccountDataGroup` | "Your data" settings card: export download and delete account behind the identity dialog |
+| `NeoSessionsController`, `NeoSessionsGroup` | Session list with the current device tagged, ending one session and signing out everywhere |
 | `NeoAuthBackdrop` | Shared sign-in background |
 | `NeoAuthQrPlate` | QR display with preparation and empty states |
 | `NeoAuthClient` | Login, registration, password reset, QR login and pairing requests using the app's transport |
