@@ -74,7 +74,12 @@ Map<String, dynamic> _sessionsBody() => <String, dynamic>{
       'createdAt': '2026-11-01T10:00:00Z',
       'location': 'Berlin',
     },
-    <String, dynamic>{'id': 'abc', 'current': false, 'userAgent': 'Phone'},
+    <String, dynamic>{
+      'id': 'abc',
+      'current': false,
+      'userAgent': 'Phone',
+      'lastSeenAt': '2026-11-02 08:30:00',
+    },
   ],
 };
 
@@ -111,6 +116,7 @@ void main() {
     expect(sessions.first.ipAddress, isNull);
     expect(sessions.first.createdAt, DateTime.utc(2026, 11, 1, 10));
     expect(sessions.first.extra, <String, dynamic>{'location': 'Berlin'});
+    expect(sessions.last.lastSeenAt, DateTime.utc(2026, 11, 2, 8, 30));
     final left = await api.revokeSession('a/b');
     expect(t.calls.last.path, '/api/v1/sessions/a%2Fb');
     expect(left, hasLength(2));

@@ -114,9 +114,22 @@ class NeoAccountSession {
       return v == null || '$v'.isEmpty ? null : '$v';
     }
 
+    // Servers send ISO times or SQLite's "YYYY-MM-DD HH:MM:SS", which
+    // carries no zone and is UTC.
     DateTime? time(String key) {
       final v = text(key);
-      return v == null ? null : DateTime.tryParse(v);
+      final t = v == null ? null : DateTime.tryParse(v);
+      if (t == null || t.isUtc) return t;
+      return DateTime.utc(
+        t.year,
+        t.month,
+        t.day,
+        t.hour,
+        t.minute,
+        t.second,
+        t.millisecond,
+        t.microsecond,
+      );
     }
 
     const known = <String>{
